@@ -5,7 +5,21 @@ import StatCard from '../../components/StatCard/StatCard.jsx'
 import ReportsFilters from '../../components/ReportsFilters/ReportsFilters.jsx'
 import ChartsSection from '../../components/ChartsSection/ChartsSection.jsx'
 import ExportButtons from '../../components/ExportButtons/ExportButtons.jsx'
-import { Euro, ShoppingCart, TrendingUp, Percent, Wrench, Users, Receipt, Award, Package, ArrowUp, ArrowDown, BarChart3 } from 'lucide-react'
+import {
+  Euro,
+  ShoppingCart,
+  TrendingUp,
+  Percent,
+  Wrench,
+  Users,
+  Receipt,
+  Award,
+  Package,
+  ArrowUp,
+  ArrowDown,
+  BarChart3,
+  Truck
+} from 'lucide-react'
 
 export default function Relatorios() {
   const { config } = useApp()
