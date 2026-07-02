@@ -7,7 +7,7 @@ export function addHeader(doc, config) {
 
   setTextColor(doc, 'headerText')
   setFont(doc, 'bold', 18)
-  doc.text(config.empresaNome || 'Pichelaria', 15, 18)
+  doc.text(config.empresaNome || 'GestãoPro', 15, 18)
 
   setFont(doc, 'normal', 9)
   const info = []

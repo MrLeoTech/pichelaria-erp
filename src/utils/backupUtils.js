@@ -15,7 +15,7 @@ export function downloadBackup(clientes, servicos, settings) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `pichelaria_backup_${new Date().toISOString().split('T')[0]}.json`
+  a.download = `gestaopro_backup_${new Date().toISOString().split('T')[0]}.json`
   a.click()
   URL.revokeObjectURL(url)
 }

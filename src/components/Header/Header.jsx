@@ -3,9 +3,9 @@ import { useIndustry } from '../../hooks/useIndustry.js'
 import { useApp } from '../../context/AppContext.jsx'
 
 export default function Header({ onMenuToggle }) {
-  const { fullName, appName } = useIndustry()
+  const { fullName } = useIndustry()
   const { settings } = useApp()
-  const logoLetter = appName.charAt(0).toUpperCase()
+  const logoLetter = settings.empresaLogo ? null : 'G'
 
   return (
     <header className="h-14 lg:h-16 bg-surface border-b border-border flex items-center justify-between px-4 lg:px-6 shrink-0 safe-top">

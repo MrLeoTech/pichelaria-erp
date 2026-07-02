@@ -2,12 +2,13 @@ import { NavLink, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, FilePlus, ClipboardList, Users, BarChart3, Settings, X
 } from 'lucide-react'
+import { APP_VERSION } from '../../config/appConfig.js'
 import { useIndustry } from '../../hooks/useIndustry.js'
 import { useApp } from '../../context/AppContext.jsx'
 
 export default function Sidebar({ isOpen, onClose, isMobile }) {
   const location = useLocation()
-  const { appName, labels, profile } = useIndustry()
+  const { appName, labels, profile, sidebarSubtitle } = useIndustry()
   const { settings } = useApp()
 
   const menuItems = [
@@ -26,7 +27,7 @@ export default function Sidebar({ isOpen, onClose, isMobile }) {
     ${isOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
   `
 
-  const logoLetter = appName.charAt(0).toUpperCase()
+  const logoLetter = 'G'
 
   return (
     <aside className={sidebarClasses} aria-label="Menu lateral">
@@ -41,7 +42,7 @@ export default function Sidebar({ isOpen, onClose, isMobile }) {
           )}
           <div className="min-w-0">
             <span className="font-semibold text-base tracking-tight block truncate">{appName}</span>
-            <span className="text-[10px] text-slate-400 block truncate">{profile.tagline}</span>
+            <span className="text-[10px] text-slate-400 block truncate">{sidebarSubtitle}</span>
           </div>
         </div>
         {isMobile && (
@@ -80,7 +81,7 @@ export default function Sidebar({ isOpen, onClose, isMobile }) {
       </nav>
 
       <div className="px-5 py-4 border-t border-white/10 shrink-0 safe-bottom">
-        <p className="text-xs text-slate-400">v2.0.0 — Multi-Área</p>
+        <p className="text-xs text-slate-400">v{APP_VERSION}</p>
         <p className="text-xs text-slate-500 mt-0.5">Dados locais · Offline</p>
       </div>
     </aside>

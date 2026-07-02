@@ -1,9 +1,9 @@
 export const defaultSettings = {
   // Industry
-  areaTrabalho: 'pichelaria',
+  areaTrabalho: 'geral',
 
   // Company
-  empresaNome: 'Pichelaria',
+  empresaNome: '',
   empresaLogo: '',
   empresaTelefone: '',
   empresaTelemovel: '',
@@ -72,13 +72,16 @@ export function resetSettings() {
   return { ...defaultSettings }
 }
 
+import { APP_NAME } from '../config/appConfig.js'
+
 export function applyThemeSettings(settings) {
   const root = document.documentElement
   root.classList.toggle('dark', !!settings.temaEscuro)
   root.style.setProperty('--color-primary', settings.corPrincipal || defaultSettings.corPrincipal)
   root.style.setProperty('--color-accent', settings.corSecundaria || defaultSettings.corSecundaria)
   root.style.setProperty('--color-primary-dark', adjustColor(settings.corPrincipal || defaultSettings.corPrincipal, -20))
-  document.title = `${settings.empresaNome?.trim() || 'ERP'} — Gestão Profissional`
+  const company = settings.empresaNome?.trim()
+  document.title = company ? `${company} — ${APP_NAME}` : APP_NAME
 }
 
 function adjustColor(hex, amount) {

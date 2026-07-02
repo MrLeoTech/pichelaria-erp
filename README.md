@@ -1,6 +1,6 @@
-# ERP Pro — Gestão Multi-Área
+# GestãoPro
 
-Sistema ERP profissional adaptável a várias áreas de trabalho: pichelaria, serralharia, eletricista, canalizador, mecânica auto, informática e serviços gerais.
+ERP multi-área para gestão de serviços, clientes e relatórios. Adaptável a pichelaria, serralharia, eletricista, canalizador, mecânica auto, informática e serviços gerais.
 
 ## Funcionalidades
 
@@ -9,7 +9,7 @@ Sistema ERP profissional adaptável a várias áreas de trabalho: pichelaria, se
 - **Clientes** — CRM com histórico e estatísticas
 - **Relatórios** — Gráficos, filtros e exportações (PDF, CSV, Excel)
 - **Definições** — Empresa, área de trabalho, tema, backup/restauro
-- **Multi-plataforma** — Desktop, tablet e smartphone com navegação inferior
+- **Multi-plataforma** — Desktop, tablet e smartphone
 - **PWA** — Instalável offline (Android, iOS, Windows)
 - **Tema escuro** — Modo claro/escuro funcional
 
@@ -19,25 +19,17 @@ Sistema ERP profissional adaptável a várias áreas de trabalho: pichelaria, se
 |------|---------|--------------|
 | Pichelaria | S- | Peças, Serviços |
 | Serralharia | S- | Materiais |
-| Eletricista | E- | Intervenções, Materiais |
+| Eletricista | E- | Intervenções |
 | Canalizador | C- | Materiais |
 | Mecânica Auto | M- | Ordens de Serviço |
-| Informática | I- | Atendimentos, Componentes |
+| Informática | I- | Atendimentos |
 | Serviços Gerais | S- | Itens genéricos |
 
 Configure em **Definições → Área de Trabalho**.
 
-## Tecnologias
-
-- React 19 + Vite 6
-- Tailwind CSS 4
-- Recharts · jsPDF · PapaParse
-- Context API + LocalStorage
-
 ## Instalação
 
 ```bash
-cd pichelaria-erp
 npm install
 npm run dev
 ```
@@ -46,7 +38,7 @@ npm run dev
 
 ```bash
 npm run dev      # Servidor de desenvolvimento
-npm run build    # Build de produção (gera ícones PWA)
+npm run build    # Build de produção
 npm run preview  # Preview da build
 npm run icons    # Regenerar ícones PWA
 ```
@@ -56,20 +48,6 @@ npm run icons    # Regenerar ícones PWA
 1. Push para GitHub
 2. Build: `npm run build`
 3. Publish: `dist`
-
-## Estrutura
-
-```
-src/
-  config/        # Perfis de área de trabalho
-  components/    # UI reutilizável + BottomNav mobile
-  context/       # Estado global unificado
-  hooks/         # useIndustry, useMobile, etc.
-  pages/         # Páginas principais
-  services/pdf/  # Geração de PDF
-  utils/         # Utilitários
-public/          # PWA, service worker, ícones
-```
 
 ## Licença
 

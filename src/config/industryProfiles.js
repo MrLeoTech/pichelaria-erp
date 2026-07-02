@@ -116,7 +116,7 @@ export const industryProfiles = {
   geral: {
     id: 'geral',
     name: 'Serviços Gerais',
-    tagline: 'Gestão adaptável a qualquer área',
+    tagline: 'Gestão de serviços e clientes',
     icon: '📋',
     prefix: 'S',
     labels: {

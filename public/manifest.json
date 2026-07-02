@@ -1,7 +1,7 @@
 {
-  "name": "ERP Pro — Gestão Profissional",
-  "short_name": "ERP Pro",
-  "description": "ERP multi-área para gestão de serviços, clientes e relatórios.",
+  "name": "GestãoPro — Gestão de Serviços",
+  "short_name": "GestãoPro",
+  "description": "GestãoPro — ERP multi-área para serviços, clientes e relatórios.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

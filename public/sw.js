@@ -1,4 +1,4 @@
-const CACHE_NAME = 'erp-pro-v2'
+const CACHE_NAME = 'gestaopro-v2'
 const STATIC_ASSETS = [
   '/',
   '/index.html',
