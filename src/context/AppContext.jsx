@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-import { loadSettings } from '../utils/settingsUtils.js'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { loadSettings, saveSettings, applyThemeSettings } from '../utils/settingsUtils.js'
 
 const AppContext = createContext(null)
 
@@ -14,18 +14,7 @@ export function AppProvider({ children }) {
     return saved ? JSON.parse(saved) : []
   })
 
-  const [config, setConfig] = useState(() => {
-    const saved = localStorage.getItem('pichelaria_config')
-    const settings = loadSettings()
-    const base = saved ? JSON.parse(saved) : {
-      ivaPercentagem: 23,
-      precoHoraPadrao: 25,
-      empresaNome: 'Pichelaria',
-      empresaNif: '',
-      empresaMorada: ''
-    }
-    return { ...base, ...settings }
-  })
+  const [settings, setSettingsState] = useState(() => loadSettings())
 
   useEffect(() => {
     localStorage.setItem('pichelaria_clientes', JSON.stringify(clientes))
@@ -36,13 +25,27 @@ export function AppProvider({ children }) {
   }, [servicos])
 
   useEffect(() => {
-    localStorage.setItem('pichelaria_config', JSON.stringify(config))
-  }, [config])
+    saveSettings(settings)
+    applyThemeSettings(settings)
+  }, [settings])
+
+  const updateSetting = useCallback((field, value) => {
+    setSettingsState(prev => ({ ...prev, [field]: value }))
+  }, [])
+
+  const setSettings = useCallback((newSettings) => {
+    setSettingsState(prev => ({ ...prev, ...newSettings }))
+  }, [])
 
   const value = {
     clientes, setClientes,
     servicos, setServicos,
-    config, setConfig
+    settings,
+    setSettings,
+    updateSetting,
+    // Legacy alias for gradual migration
+    config: settings,
+    setConfig: setSettings,
   }
 
   return (

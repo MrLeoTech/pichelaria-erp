@@ -2,19 +2,23 @@ import { useState } from 'react'
 import { useApp } from '../../context/AppContext.jsx'
 import { useServiceFilters } from '../../hooks/useServiceFilters.js'
 import { useToast } from '../../hooks/useToast.js'
+import { useIndustry } from '../../hooks/useIndustry.js'
+import { getNextServiceNumber } from '../../utils/serviceUtils.js'
 import SearchBar from '../../components/SearchBar/SearchBar.jsx'
 import ServiceFilters from '../../components/ServiceFilters/ServiceFilters.jsx'
 import ServiceTable from '../../components/ServiceTable/ServiceTable.jsx'
 import ServiceCard from '../../components/ServiceCard/ServiceCard.jsx'
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import ToastContainer from '../../components/Toast/ToastContainer.jsx'
+import EmptyState from '../../components/EmptyState/EmptyState.jsx'
 import { useMobile } from '../../hooks/useMobile.js'
 import { useNavigate } from 'react-router-dom'
 
 export default function Servicos() {
   const navigate = useNavigate()
   const { servicos, setServicos } = useApp()
-  const { filters, setFilters, filtered, resetFilters } = useServiceFilters(servicos)
+  const { labels, prefix } = useIndustry()
+  const { filters, setFilters, filtered } = useServiceFilters(servicos)
   const { toasts, addToast, removeToast } = useToast()
   const isMobile = useMobile()
 
@@ -27,7 +31,7 @@ export default function Servicos() {
   const confirmDelete = () => {
     if (!deleteModal.servico) return
     setServicos(prev => prev.filter(s => s.id !== deleteModal.servico.id))
-    addToast('Serviço eliminado com sucesso.', 'success')
+    addToast(`${labels.service} eliminado com sucesso.`, 'success')
     setDeleteModal({ open: false, servico: null })
   }
 
@@ -35,12 +39,12 @@ export default function Servicos() {
     const novo = {
       ...servico,
       id: crypto.randomUUID(),
-      numero: `S-${String(servicos.length + 1).padStart(4, '0')}`,
+      numero: getNextServiceNumber(servicos, prefix),
       data: new Date().toISOString().split('T')[0],
       estado: 'Orçamento',
     }
     setServicos(prev => [...prev, novo])
-    addToast('Serviço duplicado com sucesso.', 'success')
+    addToast(`${labels.service} duplicado com sucesso.`, 'success')
   }
 
   const handleEdit = (servico) => {
@@ -63,17 +67,17 @@ export default function Servicos() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-text">Serviços</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-text">{labels.services}</h1>
           <p className="text-sm text-text-muted mt-1">
-            {filtered.length} serviço{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
+            {filtered.length} {filtered.length === 1 ? labels.service.toLowerCase() : labels.services.toLowerCase()} encontrado{filtered.length !== 1 ? 's' : ''}
           </p>
         </div>
         <button
           onClick={() => navigate('/novo-servico')}
-          className="px-4 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold
-            hover:bg-primary-dark transition-colors shadow-sm self-start sm:self-auto"
+          className="px-4 py-3 rounded-xl bg-primary text-white text-sm font-semibold
+            hover:bg-primary-dark transition-colors shadow-sm self-start sm:self-auto min-h-[48px]"
         >
-          + Novo Serviço
+          + {labels.newService}
         </button>
       </div>
 
@@ -86,7 +90,9 @@ export default function Servicos() {
         <ServiceFilters filters={filters} onChange={setFilters} />
       </div>
 
-      {isMobile ? (
+      {filtered.length === 0 ? (
+        <EmptyState message={`Nenhum ${labels.service.toLowerCase()} encontrado.`} />
+      ) : isMobile ? (
         <div className="space-y-3">
           {filtered.map(s => (
             <ServiceCard

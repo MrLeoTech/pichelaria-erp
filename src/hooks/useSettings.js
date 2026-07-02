@@ -1,24 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'
-import { loadSettings, saveSettings } from '../utils/settingsUtils.js'
+import { useApp } from '../context/AppContext.jsx'
+import { loadSettings as loadSettingsFromStorage } from '../utils/settingsUtils.js'
 
 export function useSettings() {
-  const [settings, setSettingsState] = useState(() => loadSettings())
-
-  useEffect(() => {
-    saveSettings(settings)
-  }, [settings])
-
-  const setSettings = useCallback((newSettings) => {
-    setSettingsState(prev => ({ ...prev, ...newSettings }))
-  }, [])
-
-  const updateField = useCallback((field, value) => {
-    setSettingsState(prev => ({ ...prev, [field]: value }))
-  }, [])
-
-  const reset = useCallback(() => {
-    setSettingsState(loadSettings())
-  }, [])
-
-  return { settings, setSettings, updateField, reset }
+  const { settings, setSettings, updateSetting } = useApp()
+  return {
+    settings,
+    setSettings,
+    updateField: updateSetting,
+    reset: () => setSettings(loadSettingsFromStorage()),
+  }
 }

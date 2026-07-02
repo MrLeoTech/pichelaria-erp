@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useApp } from '../../context/AppContext.jsx'
+import { useIndustry } from '../../hooks/useIndustry.js'
 import Card from '../../components/Card/Card.jsx'
 import StatCard from '../../components/StatCard/StatCard.jsx'
 import MonthlyChart from '../../components/MonthlyChart/MonthlyChart.jsx'
@@ -12,6 +13,7 @@ import {
 
 export default function Dashboard() {
   const { servicos, clientes } = useApp()
+  const { labels } = useIndustry()
 
   const totalServicos = servicos.length
   const totalPendentes = servicos.filter(s => s.estado === 'Em execução').length
@@ -40,7 +42,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <StatCard title="Total Serviços" value={totalServicos} icon={Wrench} color="accent" />
+        <StatCard title={`Total ${labels.services}`} value={totalServicos} icon={Wrench} color="accent" />
         <StatCard title="Compras" value={`${totalCompras.toFixed(2)} €`} icon={ShoppingCart} color="danger" />
         <StatCard title="Vendas" value={`${totalVendas.toFixed(2)} €`} icon={Euro} color="success" />
         <StatCard title="Lucro Total" value={`${lucroTotal.toFixed(2)} €`} icon={TrendingUp} color={lucroTotal >= 0 ? 'success' : 'danger'} />
@@ -63,10 +65,10 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <Card title="Últimos Serviços" icon={Wrench}>
+      <Card title={`Últimos ${labels.services}`} icon={Wrench}>
         <div className="space-y-3">
           {servicosRecentes.length === 0 ? (
-            <p className="text-sm text-text-muted text-center py-4">Nenhum serviço registado.</p>
+            <p className="text-sm text-text-muted text-center py-4">{labels.emptyServices}</p>
           ) : (
             servicosRecentes.map((s) => (
               <div key={s.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">

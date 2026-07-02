@@ -6,7 +6,7 @@ export function getClientStats(cliente, servicos) {
     ? clientServicos.reduce((s, sv) => s + (sv.margem || 0), 0) / clientServicos.length
     : 0
   const ultimoServico = clientServicos.length > 0
-    ? clientServicos.sort((a, b) => new Date(b.data) - new Date(a.data))[0]
+    ? [...clientServicos].sort((a, b) => new Date(b.data) - new Date(a.data))[0]
     : null
 
   return {

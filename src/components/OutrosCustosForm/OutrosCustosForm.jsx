@@ -1,7 +1,7 @@
 import Card from '../Card/Card.jsx'
 import { Truck, Droplets, MoreHorizontal } from 'lucide-react'
 
-export default function OutrosCustosForm({ form, updateField }) {
+export default function OutrosCustosForm({ form, updateField, costsLabel = 'Outros Custos' }) {
   const fields = [
     { label: 'Deslocação (€)', key: 'custoDeslocacao', icon: Truck },
     { label: 'Consumíveis (€)', key: 'custoConsumiveis', icon: Droplets },
@@ -9,7 +9,7 @@ export default function OutrosCustosForm({ form, updateField }) {
   ]
 
   return (
-    <Card title="Outros Custos" icon={MoreHorizontal}>
+    <Card title={costsLabel} icon={MoreHorizontal}>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {fields.map((f) => {
           const Icon = f.icon

@@ -1,16 +1,16 @@
 import Card from '../Card/Card.jsx'
 import { Calculator, Percent } from 'lucide-react'
 
-export default function TotaisPanel({ totals, ivaAtivo, onToggleIva, config }) {
+export default function TotaisPanel({ totals, ivaAtivo, onToggleIva, config, partsLabel = 'Peças', laborLabel = 'Mão de Obra' }) {
   const {
     totalCompraPecas, totalVendaPecas, maoObra, outrosCustos,
     subtotal, ivaValor, totalCliente, lucro, margem
   } = totals
 
   const rows = [
-    { label: 'Total Compra Peças', value: totalCompraPecas, color: 'text-danger' },
-    { label: 'Total Venda Peças', value: totalVendaPecas, color: 'text-text' },
-    { label: 'Mão de Obra', value: maoObra, color: 'text-text' },
+    { label: `Total Compra ${partsLabel}`, value: totalCompraPecas, color: 'text-danger' },
+    { label: `Total Venda ${partsLabel}`, value: totalVendaPecas, color: 'text-text' },
+    { label: laborLabel, value: maoObra, color: 'text-text' },
     { label: 'Outros Custos', value: outrosCustos, color: 'text-text' },
     { label: 'Subtotal', value: subtotal, color: 'text-text font-semibold', divider: true },
     { label: `IVA (${config.ivaPercentagem}%)`, value: ivaValor, color: 'text-text-muted', isIva: true },

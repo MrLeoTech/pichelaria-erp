@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useApp } from '../context/AppContext.jsx'
 import { findClientByName, createClientFromService } from '../utils/clientUtils.js'
+import { getNextServiceNumber } from '../utils/serviceUtils.js'
+import { getIndustryProfile } from '../config/industryProfiles.js'
 
 const emptyPeca = () => ({
   id: crypto.randomUUID(),
@@ -37,13 +39,17 @@ const emptyServico = () => ({
 })
 
 export function useServicoForm() {
-  const { servicos, setServicos, clientes, setClientes, config } = useApp()
+  const { servicos, setServicos, clientes, setClientes, settings } = useApp()
   const [form, setForm] = useState(emptyServico)
 
+  const prefix = getIndustryProfile(settings.areaTrabalho).prefix
+
   useEffect(() => {
-    const nextNum = servicos.length + 1
-    setForm(prev => prev.numero ? prev : { ...prev, numero: `S-${String(nextNum).padStart(4, '0')}` })
-  }, [servicos.length])
+    setForm(prev => {
+      if (prev.numero) return prev
+      return { ...prev, numero: getNextServiceNumber(servicos, prefix) }
+    })
+  }, [servicos, prefix])
 
   const updateField = useCallback((field, value) => {
     setForm(prev => ({ ...prev, [field]: value }))
@@ -98,24 +104,24 @@ export function useServicoForm() {
       (Number(form.custoOutros) || 0)
 
     const subtotal = totalVendaPecas + maoObra + outrosCustos
-    const ivaValor = form.ivaAtivo ? subtotal * (config.ivaPercentagem / 100) : 0
+    const ivaValor = form.ivaAtivo ? subtotal * (settings.ivaPercentagem / 100) : 0
     const totalCliente = subtotal + ivaValor
     const lucro = totalCliente - totalCompraPecas - outrosCustos
     const margem = subtotal > 0 ? (lucro / subtotal) * 100 : 0
 
     return { totalCompraPecas, totalVendaPecas, maoObra, outrosCustos, subtotal, ivaValor, totalCliente, lucro, margem }
-  }, [form, config.ivaPercentagem])
+  }, [form, settings.ivaPercentagem])
 
   const totals = calcular()
 
-  const resetForm = useCallback(() => {
-    const nextNum = servicos.length + 2
+  const resetForm = useCallback((servicosOverride) => {
+    const list = servicosOverride ?? servicos
     setForm({
       ...emptyServico(),
-      numero: `S-${String(nextNum).padStart(4, '0')}`,
-      maoObraPrecoHora: config.precoHoraPadrao,
+      numero: getNextServiceNumber(list, prefix),
+      maoObraPrecoHora: settings.precoHoraPadrao,
     })
-  }, [servicos.length, config.precoHoraPadrao])
+  }, [servicos, prefix, settings.precoHoraPadrao])
 
   const autoLinkClient = useCallback(() => {
     const nome = form.clienteNome?.trim()

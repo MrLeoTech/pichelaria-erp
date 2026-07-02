@@ -1,6 +1,6 @@
 export function createBackup(clientes, servicos, settings) {
   const backup = {
-    version: '1.0.0',
+    version: '2.0.0',
     exportDate: new Date().toISOString(),
     clientes,
     servicos,

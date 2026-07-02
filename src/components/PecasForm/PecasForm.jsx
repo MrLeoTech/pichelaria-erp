@@ -1,9 +1,9 @@
 import Card from '../Card/Card.jsx'
 import { Package, Plus, Copy, Trash2 } from 'lucide-react'
 
-export default function PecasForm({ pecas, onAdd, onRemove, onDuplicate, onUpdate }) {
+export default function PecasForm({ pecas, onAdd, onRemove, onDuplicate, onUpdate, partsLabel = 'Peças', partLabel = 'Peça' }) {
   return (
-    <Card title="Peças" icon={Package}>
+    <Card title={partsLabel} icon={Package}>
       <div className="space-y-3">
         {pecas.map((peca, idx) => {
           const totalCompra = (Number(peca.quantidade) || 0) * (Number(peca.precoCompra) || 0)
@@ -13,7 +13,7 @@ export default function PecasForm({ pecas, onAdd, onRemove, onDuplicate, onUpdat
           return (
             <div key={peca.id} className="p-4 rounded-xl border border-border bg-bg/50 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-accent">Peça #{idx + 1}</span>
+                <span className="text-xs font-semibold text-accent">{partLabel} #{idx + 1}</span>
                 <div className="flex items-center gap-1">
                   <button type="button" onClick={() => onDuplicate(peca.id)}
                     className="p-1.5 hover:bg-accent/10 rounded-lg text-text-muted hover:text-accent transition-colors"
@@ -36,7 +36,7 @@ export default function PecasForm({ pecas, onAdd, onRemove, onDuplicate, onUpdat
                   <input type="text" value={peca.nome}
                     onChange={e => onUpdate(peca.id, 'nome', e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-                    placeholder="Nome da peça" />
+                    placeholder={`Nome ${partLabel.toLowerCase() === 'peça' ? 'da peça' : `do ${partLabel.toLowerCase()}`}`} />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-text-muted mb-1">Fornecedor</label>
@@ -79,7 +79,7 @@ export default function PecasForm({ pecas, onAdd, onRemove, onDuplicate, onUpdat
         className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 border-dashed border-accent/30
           text-accent text-sm font-medium hover:bg-accent/5 hover:border-accent/50 transition-all">
         <Plus size={16} />
-        Adicionar Peça
+        Adicionar {partLabel}
       </button>
     </Card>
   )

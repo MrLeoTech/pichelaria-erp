@@ -1,11 +1,11 @@
 import Card from '../Card/Card.jsx'
 import { Hammer } from 'lucide-react'
 
-export default function MaoObraForm({ form, updateField }) {
+export default function MaoObraForm({ form, updateField, laborLabel = 'Mão de Obra' }) {
   const isFixo = form.maoObraModo === 'fixo'
 
   return (
-    <Card title="Mão de Obra" icon={Hammer}>
+    <Card title={laborLabel} icon={Hammer}>
       <div className="space-y-4">
         <div className="flex gap-2">
           <button
